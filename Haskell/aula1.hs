@@ -51,7 +51,7 @@ vendasIguais2 s n = igualdade s (vendas n) + vendasIguais2 s (n-1)
 
 testaPrimo:: Int->Int->Bool
 testaPrimo x y  | y == 1 = True
-                | x mod y == 0 = False
+                | x `mod` y == 0 = False
                 | otherwise = testaPrimo x (y-1)
                 
 ehPrimo :: Int -> Bool

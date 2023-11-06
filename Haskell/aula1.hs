@@ -30,6 +30,9 @@ myNot :: Bool->Bool
 myNot True = False
 myNot False = True
 
+myAnd :: Bool -> Bool -> Bool
+myAnd False x = False
+myAnd True x = x
 
 --Q1:
 

@@ -37,3 +37,9 @@ sumPairs ((x1,y1):tail) = x1+y1 : sumPairs tail
 sumPairs2 :: [(Int,Int)] -> [Int]
 sumPairs2 [] = [] 
 sumPairs2 (head:tail) = (fst head + snd head) : sumPairs tail
+
+--Case
+firstDigit :: String-> Char
+firstDigit st = case (digits st) of
+                  [] -> '\0'
+                  (head:tail) -> head

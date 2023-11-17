@@ -1,3 +1,11 @@
+main = do
+    lista <- getLine
+    let readList = read lista :: [Int]
+    num <- getLine
+    let readNum = read num :: Int
+    let result = somarMultiplos readList readNum
+    print result
+    
 somarMultiplos :: [Int] -> Int -> [Int]
 somarMultiplos [] _ = []
 somarMultiplos (x:xs) k = (devolveSoma x k) : somarMultiplos xs k

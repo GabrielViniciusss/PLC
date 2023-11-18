@@ -3,9 +3,8 @@ main = do
       let result = fatPrime (read a :: Int)
       print result
       
-fatPrime :: Int -> [(Int, Int)]   -- fat 100 = find 100 2 [] => find 100 2 [] => find 50 2 (update 2 []) => [(2,1)] => find 50 2 [(2,1)] => find 25 2 up[(2,1)] => (update 2 [(2,1)]) =>
-fatPrime 1 = []                   -- find 25 2 [(2,2)] => find 25 3 [(2,2)] => find 25 5 [(2,2)] => find 5 5 up[(2,2)] => up 5 ((2,2) : []) => (2,2) : [] : (5,1) => [(2,2),(5,1)]
-                                  -- find 5 5 [(2,2),(5,1)] => find 1 5 up 5 [(2,2),(5,1)] => HAHAHAHHAHAHA X = 2 vai dar diferente e criar (5,1)
+fatPrime :: Int -> [(Int, Int)]   
+fatPrime 1 = []                   
 fatPrime n = findFactors n 2 []
 
 findFactors :: Int -> Int -> [(Int, Int)] -> [(Int, Int)]

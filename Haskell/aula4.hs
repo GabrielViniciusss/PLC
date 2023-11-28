@@ -19,7 +19,7 @@ inverte :: (t->u->v) -> (u->t->v)
 inverte f x y = f y x
 
 primList :: [Int] -> [Int]
-primList k = hahaha (map ehPrimo k)
+primList k = [x | x <- (map ehPrimo k), x/= 0]
 
 testaPrimo:: Int->Int->Bool
 testaPrimo x y  | fromIntegral y > sqrt (fromIntegral x) = True
@@ -30,8 +30,7 @@ ehPrimo :: Int -> Int
 ehPrimo 1 = 0
 ehPrimo 2 = 2
 ehPrimo n | mod n 2 == 0 = 0
-          | if (testaPrimo n 3) == True then n else 0
-
+          | otherwise = if (testaPrimo n 3) == True then n else 0
 
 dropZero :: [Int] -> [Int]
 dropZero [] = []

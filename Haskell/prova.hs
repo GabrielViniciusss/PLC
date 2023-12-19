@@ -1,3 +1,5 @@
+import Data.Char (ord, chr)
+
 answer :: Int  -- variavel imutavel
 answer = 42
 
@@ -137,8 +139,8 @@ roots a b c | sqrt(b*b - 4*a*c) == 0 = (1,oneRoot a b c,-1)
 -- compreensoes de listas
 -- [expressao qualquer que usa (ou nao) variavel | variavel <- lista , cond]
 
-doubleList :: [Int] -> [Int]
-doubleList xs = [2*a | a<-xs]
+doubleList :: Num t => [t] -> [t]
+doubleList xs = [2 * a | a <- xs]
 
 mod73 :: [Int] -> [Int]
 mod73 xs = [x | x<-[1..100] ,mod x 7 ==0 || mod x 3 == 0]
@@ -170,6 +172,11 @@ emprestar ((p,l):as) pessoa livro
     | otherwise = (p,l):emprestar as pessoa livro
 
 --polimorfismo
+
+capitalize :: Char -> Char             --monomorfica
+capitalize ch = chr (ord ch + offset)
+    where offset = ord 'A' - ord 'a'
+
 zips :: [t]->[u]->[(t,u)] --parametrico (tipo dos elementos nao importam)
 zips (a:as) (b:bs) = (a,b) : zip as bs
 zips _ _ = []
@@ -182,27 +189,77 @@ length2 :: [t] -> Int
 length2 [] = 0
 length2 (a:as) = 1 + length2 as
 
-rep2 :: Int->a->[a]
+rep2 :: (Eq t,Num t) => t->u->[u]
 rep2 0 _ = []
 rep2 n x = x : rep2 (n-1) x
+
+quicksort :: (Ord t) => [t] -> [t]
+quicksort [] = []
+quicksort (p:xs) = quicksort[x|x<-xs,x<=p] ++ [p] ++ quicksort[x|x<-xs,x>p]
+
+allEqual2 :: Eq t=> t-> t->t->Bool
+allEqual2 n m p = (n==m) && (m==p)
+
+member2 :: Eq t => [t] -> t -> Bool
+member2 [] _= False
+member2 (a:as) x| x==a = True
+                | otherwise = member2 as x
+
+
+--show :: Show t=> t->String
+--read :: Read t=> String->t
 
 -- polimorfismo de sobrecarga
 -- mesmo nome de funçao, mas ela funciona com diversos tipos distintos
 -- classe: coleçao de tipos para os quais uma funçao está definida
--- ex: Eq, Num, Ord
--- Instacia: int é instancia de Eq, assim como float,char,bool,[int] pois as operaçoes da classe Eq estao definidas para esse tipo 
+-- ex: Eq(comparaveis), Num(Int,double,float) , Ord (Ordenaveis) , Show (transformaveis em string)
+-- Instacia: Int é instancia de Eq, assim como float,char,bool,[int] pois as operaçoes da classe Eq estao definidas para esse tipo
+            
 
---ex:
-
-agrupar :: Eq t => [[t]] -> [(t,Int)] 
-agrupar [] = []
-agrupar ((h:t):s) = (h,check h (t:s)) : agrupar t
-
-check :: Eq t => t -> [t]-> Int
-check _ [] = 0
-check a (x:xs) | x == a = 1 + check a xs
-               | otherwise = check a xs
-
--- funçoes de alta ordem
+--funçoes de alta ordem
 applyBinOper :: (t -> t-> u)->t->t->u -- outra funçao como parametro
 applyBinOper f x y = f x y
+
+myMap :: (t->u) -> [t] -> [u]
+myMap f [] = []
+myMap f (a:as) = f a : myMap f as
+
+-- map percorre a lista fazendo operaçoes um a um com os elementos e devolve lista
+-- fold percorre a lista acumulando operaçoes elementos um a um e devolve um elemento no final
+
+fold2 :: (t->t->t) -> [t] ->t
+fold2 f [a] = a
+fold2 f (a:as) = f a (fold2 f as)
+
+--foldr
+concat :: [[t]] -> [t]
+concat xs = foldr (++) [] xs --caso base [] foldr::(f) ->casobase
+
+--filter
+filter2 :: (t->Bool) -> [t] -> [t]
+filter2 p [] = []
+filter2 p (a:as) | p a = a : filter2 p as
+                | otherwise = filter2 p as
+
+evens xs = filter2 isEven2 xs
+    where isEven2 n = mod n 2 == 0
+
+--tipos algebricos
+
+data Estacao = Inverno | Verao | Outono | Primavera
+data Temp = Frio | Quente
+
+clima :: Estacao -> Temp
+clima Inverno = Frio
+clima _ = Quente
+
+data Shape = Circle Float | Rectangle Float Float
+example1 :: Shape
+example1 = Circle 4.9
+
+example2 :: Shape
+example2 = Rectangle 4.2 2.0
+
+isRound :: Shape -> Bool
+isRound (Circle _) = True
+isRound (Rectangle _ _) = False

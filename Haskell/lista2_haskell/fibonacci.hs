@@ -1,4 +1,4 @@
-fib :: Int -> [Integer]
+fib :: Int -> [Int]
 fib n = fibs 0 1 n
   where
     fibs _ _ 0 = []

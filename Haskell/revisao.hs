@@ -224,6 +224,12 @@ myMap :: (t->u) -> [t] -> [u]
 myMap f [] = []
 myMap f (a:as) = f a : myMap f as
 
+lista_3 :: [Int]
+lista_3 = map (\x -> 2*x) [1..100]
+
+second :: [(t,u)] -> [u]
+second xs = map (snd) xs
+
 -- map percorre a lista fazendo operaçoes um a um com os elementos e devolve lista
 -- fold percorre a lista acumulando operaçoes elementos um a um e devolve um elemento no final
 
@@ -244,6 +250,11 @@ filter2 p (a:as) | p a = a : filter2 p as
 evens xs = filter2 isEven2 xs
     where isEven2 n = mod n 2 == 0
 
+filter3 p l = [a | a<-l,p a]
+
+isEvenA ::Int->Bool
+isEvenA n = (mod n 2 ==0)
+
 --tipos algebricos
 
 data Estacao = Inverno | Verao | Outono | Primavera
@@ -263,3 +274,17 @@ example2 = Rectangle 4.2 2.0
 isRound :: Shape -> Bool
 isRound (Circle _) = True
 isRound (Rectangle _ _) = False
+
+-- composiçao de funçoes , F(g(x)) =
+sqr2 = \x -> x*x
+concat2 = \l1 l2 -> l1 ++ l2
+
+g :: Int->Int
+g x = x + 1
+
+f :: Int->Int -- f.g = f(g(x))
+f y = y * 10
+
+h :: Int->Int
+h = (f.g)
+

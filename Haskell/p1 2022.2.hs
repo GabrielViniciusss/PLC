@@ -1,5 +1,4 @@
 import Data.Char
-
 rlencode0 :: [Int] -> [Int]
 rlencode0 [] = []
 rlencode0 (x:xs)
@@ -34,3 +33,11 @@ rldecodeLetras (x:xs:t)
     |isDigit xs = x : replicate (digitToInt xs - 1) x ++ rldecodeLetras t
     |otherwise = x: rldecodeLetras (xs:t)
 
+data Letra = Unica Char | Repetida Char Int
+    deriving (Show)
+
+rlencodeLetrasCodigo :: String -> [Letra]
+rlencodeLetrasCodigo [x] = [Unica x]
+rlencodeLetrasCodigo (x:xs)
+    |x/=head xs = Unica x : rlencodeLetrasCodigo xs
+    |otherwise = Repetida x (length (takeWhile (==x) xs) + 1) : rlencodeLetrasCodigo xs

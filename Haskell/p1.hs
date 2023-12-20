@@ -40,4 +40,9 @@ rlencodeLetrasCodigo :: String -> [Letra]
 rlencodeLetrasCodigo [x] = [Unica x]
 rlencodeLetrasCodigo (x:xs)
     |x/=head xs = Unica x : rlencodeLetrasCodigo xs
-    |otherwise = Repetida x (length (takeWhile (==x) xs) + 1) : rlencodeLetrasCodigo xs
+    |otherwise = Repetida x (length (takeWhile (==x) xs) + 1) : rlencodeLetrasCodigo (dropWhile (==x) xs)
+
+rldecodeLetrasCodigo :: [Letra] -> String
+rldecodeLetrasCodigo [Unica x] = [x]
+rldecodeLetrasCodigo (Unica x:xs) = [x] ++ rldecodeLetrasCodigo xs
+rldecodeLetrasCodigo (Repetida x n:xs) = (replicate n x) ++ rldecodeLetrasCodigo xs

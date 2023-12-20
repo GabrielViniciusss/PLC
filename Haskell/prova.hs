@@ -189,7 +189,7 @@ length2 :: [t] -> Int
 length2 [] = 0
 length2 (a:as) = 1 + length2 as
 
-rep2 :: (Eq t,Num t) => t->u->[u]
+rep2 :: (Eq t,Num t) => t->u->[u] -- replicate
 rep2 0 _ = []
 rep2 n x = x : rep2 (n-1) x
 
